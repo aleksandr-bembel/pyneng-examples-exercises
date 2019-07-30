@@ -12,4 +12,20 @@
 
 '''
 
+from sys import argv
+
 ignore = ['duplex', 'alias', 'Current configuration']
+
+
+try:
+    with open(argv[1],'r') as f:
+        for line in f:
+            if not line.startswith('!'):
+                line_ok=True
+                for word in ignore:
+                    if word in line:
+                        line_ok=False
+                if line_ok:
+                    print(line.rstrip())
+except IOError:
+    print("File not found")

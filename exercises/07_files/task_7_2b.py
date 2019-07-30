@@ -13,4 +13,19 @@
 
 '''
 
+from sys import argv
+
 ignore = ['duplex', 'alias', 'Current configuration']
+
+
+try:
+    with open(argv[1],'r') as src, open('config_sw1_cleared.txt','w') as dest:
+        for line in src:
+            line_ok=True
+            for word in ignore:
+                if word in line:
+                    line_ok=False
+            if line_ok:
+                dest.write(line)
+except IOError:
+    print("File not found")

@@ -22,3 +22,17 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 '''
+
+from operator import itemgetter
+
+list = []
+with open("CAM_table.txt",'r') as f:
+    for line in f:
+        if 'DYNAMIC' in line:
+            vlan, mac, _, intf = line.split()
+            list.append((int(vlan),mac,intf))
+
+list.sort(key=itemgetter(0))
+for line in list:
+    vlan, mac, intf = line
+    print("{:<7} {} {:>7}".format(vlan, mac, intf))
