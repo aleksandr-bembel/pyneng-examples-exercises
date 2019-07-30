@@ -43,3 +43,12 @@ london_co = {
         'routing': True
     }
 }
+
+device_name=input("Enter device name: ")
+device=london_co.get(device_name)
+
+prompt="Enter parameter name ({}):".format(",".join([str(s) for s in device.keys()]))
+
+parameter_name=input(prompt)
+
+print(device.get(parameter_name.lower(),"Такого параметра нет"))
