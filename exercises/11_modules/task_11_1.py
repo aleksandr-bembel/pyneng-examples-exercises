@@ -27,4 +27,24 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
+from pprint import pprint
 
+def parse_cdp_neighbors(command_output):
+    result = {}
+    device=""
+    for line in command_output.split("\n"):
+        if "cdp neigh" in line:
+            device=line.split(">")[0]
+            continue
+        if "/" in line:
+            neighbor_device, local_intftype, local_intfnum, *_, neighbor_intftype,neighbor_intfnum = line.split()
+            result[(device,local_intftype+local_intfnum)] = (neighbor_device,neighbor_intftype+neighbor_intfnum)
+    return result
+
+
+if __name__ == "__main__":
+    with open("sh_cdp_n_sw1.txt", "r") as f:
+        string = "".join(f.readlines())
+    
+    result = parse_cdp_neighbors(string)
+    pprint(result)
