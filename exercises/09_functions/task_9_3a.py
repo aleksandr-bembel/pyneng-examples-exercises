@@ -23,3 +23,32 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
+from sys import argv
+from pprint import pprint
+
+
+def get_int_vlan_map(config_filename):
+    access_dict = {}
+    trunk_dict = {}
+
+    with open(config_filename, 'r') as f:
+        intf = ""
+        for line in f:
+            if line.startswith("interface"):
+                if intf != "" and not(access_dict.get(intf) or trunk_dict.get(intf)):
+                    access_dict[intf] = 1
+                _, intf = line.split()
+                continue
+            if "allowed vlan" in line:
+                trunk_dict[intf] = [int(vlan)
+                                    for vlan in line.split()[4].split(",")]
+                continue
+            if "access vlan" in line:
+                access_dict[intf] = int(line.split()[3])
+
+    return access_dict, trunk_dict
+
+
+if __name__ == "__main__":
+    result = get_int_vlan_map(argv[1])
+    pprint(result)

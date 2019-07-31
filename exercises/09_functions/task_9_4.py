@@ -35,3 +35,21 @@ def ignore_command(command, ignore):
     * False - если нет
     '''
     return any(word in command for word in ignore)
+
+def convert_config_to_dict(config_filename):
+    config_dict = {}
+    with open(config_filename,"r") as f:
+        for line in f:
+            line=line.rstrip()
+            if ignore_command(line, ignore) or line=="" or line.startswith("!"):
+                continue
+            if line.startswith(" "):
+                config_dict[key].append(line.strip())
+            else:
+                key=line
+                config_dict[key] = []
+                continue
+    return config_dict
+
+if __name__ == "__main__":
+    convert_config_to_dict("config_sw1.txt")
