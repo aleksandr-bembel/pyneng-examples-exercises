@@ -24,3 +24,18 @@ description Connected to SW1 port Eth 0/1
 
 Проверить работу функции на файле sh_cdp_n_sw1.txt.
 '''
+import re
+from pprint import pprint
+
+def generate_description_from_cdp(filename):
+    result ={}
+    regex = r"(?P<remote_host>\S+) +(?P<local_intf>\S+ \d/\d+).+?(?P<remote_intf>\S+ \d/\d+)"
+    with open(filename) as f:
+        for line in f:
+            match = re.search(regex,line)
+            if match:
+                result[match.group("local_intf")]=f"description Connected to {match.group('remote_host')} port {match.group('remote_intf')}"
+    return result
+
+if __name__ == "__main__":
+    pprint(generate_description_from_cdp("sh_cdp_n_sw1.txt"))
