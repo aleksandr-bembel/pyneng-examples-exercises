@@ -33,3 +33,4 @@ Thumbs.db
 
 *.code-workspace
 .vscode/
+.pytest_cache
