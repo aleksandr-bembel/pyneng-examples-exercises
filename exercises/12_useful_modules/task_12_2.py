@@ -37,7 +37,7 @@ def check_ip_addresses(ip):
     try:
         ipaddress.ip_address(ip)
         return True
-    except ValueError as err:
+    except ValueError:
         return False
 
 
